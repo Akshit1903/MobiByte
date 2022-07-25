@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "561124299598",
+    "project_id": "mobibyte",
+    "storage_bucket": "mobibyte.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:561124299598:android:a41d01b3f11b7dd81b041f",
+        "android_client_info": {
+          "package_name": "com.mobibyte"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "561124299598-v8c3n3at1uprut7ih3j2u8hj0fle47eo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mobibyte",
+            "certificate_hash": "d4c1aeaeac3ff3229a80361b2d4b63e5e585b1ee"
+          }
+        },
+        {
+          "client_id": "561124299598-p14ah5rtlv52c2ogkgpq4uac2911d3v0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVCHFsdsytnVtqh24kHKZHERWZnnjoja8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "561124299598-p14ah5rtlv52c2ogkgpq4uac2911d3v0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
