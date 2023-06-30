@@ -3,12 +3,12 @@
 - The MobiByte (MOBY) Crypto Mining App is a frontend application developed using Flutter and Firebase.
 - It allows users to mine the hypothetical MobiByte cryptocurrency (MOBY) using their mobile devices.
 - The app provides a user-friendly interface to easily participate in the mining process and track mining rewards.
-- [📦.apk](https://github.com/Akshit1903/MobiByte/blob/main/app-release.apk) :For testing purposes
+- [📦.apk](https://github.com/Akshit1903/MobiByte/raw/main/app-release.apk) :For testing purposes
 - [📽️YouTube](https://youtu.be/Vq0BWUgAImA) Video
 
 ## Screenshots
 
-<img src="./assets/readme/1.jpg" width="150" height=auto/><img src="./assets/readme/2.jpg" width="150" height=auto/><img src="./assets/readme/3.jpg" width="150" height=auto/><img src="./assets/readme/4.jpg" width="150" height=auto/><img src="./assets/readme/5.jpg" width="150" height=auto/><img src="./assets/readme/6.jpg" width="150" height=auto/>
+<img src="./assets/readme/1.jpg" width="220" height=auto/><img src="./assets/readme/2.jpg" width="220" height=auto/><img src="./assets/readme/3.jpg" width="220" height=auto/><img src="./assets/readme/4.jpg" width="220" height=auto/><img src="./assets/readme/5.jpg" width="220" height=auto/><img src="./assets/readme/6.jpg" width="220" height=auto/>
 
 ## Features
 
