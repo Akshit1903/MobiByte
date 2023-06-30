@@ -13,10 +13,15 @@ class ReferScreen extends StatefulWidget {
 }
 
 class _ReferScreenState extends State<ReferScreen> {
+  void doSetState() {
+    setState(() {});
+  }
+
   bool _isLoading = false;
   final _fKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    print("build called");
     final _appSettings = Provider.of<AppSettings>(context);
 
     var _name = "";
@@ -32,8 +37,8 @@ class _ReferScreenState extends State<ReferScreen> {
     void _infoInput(bool toRefer) {
       showDialog(
         context: context,
-        builder: (ctx) => AlertDialog(
-          title: Text("Enter Details of user"),
+        builder: (context) => AlertDialog(
+          title: const Text("Enter Details of user"),
           content: Text(toRefer
               ? "from whom you want to get referred"
               : "you want to refer"),
@@ -143,14 +148,18 @@ class _ReferScreenState extends State<ReferScreen> {
                           // ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       _isLoading
-                          ? CircularProgressIndicator()
+                          ? const CircularProgressIndicator()
                           : ElevatedButton(
                               child: Text("Done"),
                               onPressed: () async {
+                                if (!toRefer) {
+                                  Navigator.of(context).pop();
+                                  return;
+                                }
                                 setState(() {
                                   _isLoading = true;
                                 });
@@ -172,6 +181,7 @@ class _ReferScreenState extends State<ReferScreen> {
                                 if (result) {
                                   Navigator.of(context).pop();
                                 }
+                                doSetState();
                               })
                     ],
                   ),
@@ -192,7 +202,10 @@ class _ReferScreenState extends State<ReferScreen> {
             );
           }
           final _isReferred = snapshot.data!['referredBy'] != null;
-
+          final _referrerID = snapshot.data!['referredBy'];
+          print("isReferred");
+          // print(snapshot.data);
+          // print(_referrerID);
           return Scaffold(
               backgroundColor: Theme.of(context).backgroundColor,
               body: Container(
@@ -238,7 +251,7 @@ class _ReferScreenState extends State<ReferScreen> {
                                   DocumentSnapshot<Map<String, dynamic>>>(
                               future: _appSettings.dbInstance
                                   .collection('users')
-                                  .doc(snapshot.data!['referredBy'])
+                                  .doc(_referrerID)
                                   .get(),
                               builder: (ctx, snap) {
                                 if (snap.connectionState ==
@@ -247,20 +260,52 @@ class _ReferScreenState extends State<ReferScreen> {
                                     child: CircularProgressIndicator(),
                                   );
                                 }
+                                print("isReferred");
+                                final referrerDetails = snap.data!.data();
+
+                                if (referrerDetails != null) {
+                                  print(referrerDetails);
+                                } else {
+                                  print("bt");
+                                }
+                                if (referrerDetails == null) {
+                                  return Text("error!");
+                                }
+                                final referrerName = referrerDetails["name"];
+                                final referrerEmail = referrerDetails["email"];
+                                final referrerImageUrl = referrerDetails[
+                                        'imageUrl'] ??
+                                    "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg";
+
+                                print(
+                                    "$referrerName , $referrerEmail , $referrerImageUrl");
                                 return ListTile(
                                   leading: CircleAvatar(
                                     backgroundImage: NetworkImage(
-                                      snap.data!['imageUrl'],
+                                      referrerImageUrl,
                                     ),
-                                   ),
-                                  title: Text(snap.data!['name']),
-                                  subtitle: Text(snap.data!['email']),
+                                  ),
+                                  title: Text(referrerName),
+                                  subtitle: Text(referrerEmail),
                                 );
                               })
                           : Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                const Text("No one!"),
+                                //             ListTile(
+                                //   leading: CircleAvatar(
+                                //     backgroundImage: NetworkImage(photoUrl),
+                                //   ),
+                                //   title: Text(
+                                //     displayName,
+                                //   ),
+                                //   subtitle: FittedBox(
+                                //     child: Text(
+                                //       _auth.currentUser!.email.toString(),
+                                //     ),
+                                //   ),
+                                // ),
+                                Text("No one!"),
                                 if (!_isReferred)
                                   ElevatedButton(
                                     onPressed: () {

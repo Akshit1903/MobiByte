@@ -54,7 +54,6 @@ class Mine with ChangeNotifier {
       });
     }
 
-    // print(_userData.data() != null ? _userData!.data()['MOBY'] : 0);
     if (_whenEnded == _whenStarted) {
       _moby = double.parse(_userData['MOBY'].toStringAsFixed(6));
     } else {
@@ -73,7 +72,9 @@ class Mine with ChangeNotifier {
           'mode': uData['mode'],
           'phoneNo': uData['phoneNo'],
           'MOBY': _moby,
-          'imageUrl': uData['imageUrl']
+          'uid': uData['uid'],
+          'imageUrl': uData['imageUrl'],
+          'referredBy': uData['referredBy'],
         });
       }
     }
@@ -84,7 +85,7 @@ class Mine with ChangeNotifier {
   void toggleMining() async {
     _isMining = !_isMining;
     final _uid = _auth.currentUser!.uid;
-    final _userData = await _firestoreDb.collection('users').doc(_uid).get();
+    // final _userData = await _firestoreDb.collection('users').doc(_uid).get();
     final _mineData = await _firestoreDb.collection('mining').doc(_uid).get();
     final _whenStarted = DateTime.parse(_mineData['whenStarted']);
     final _whenEnded = DateTime.parse(_mineData['whenEnded']);
