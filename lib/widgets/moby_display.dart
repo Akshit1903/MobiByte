@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,16 +13,38 @@ class MobyDisplay extends StatefulWidget {
 }
 
 class _MobyDisplayState extends State<MobyDisplay> {
+  Timer refreshTimer = Timer(const Duration(seconds: 2), () {});
+  String mobyCached = "0";
+  @override
+  void didChangeDependencies() {
+    refreshTimer.cancel();
+    final mineData = Provider.of<Mine>(context);
+    refreshTimer = Timer.periodic(const Duration(seconds: 2), (timer) {
+      mineData.refreshCoins().then((value) => {setState(() {})});
+    });
+    super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    refreshTimer.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final mineData = Provider.of<Mine>(context);
+
     return FutureBuilder(
       future: Provider.of<AppSettings>(context).getUserdataMap,
       builder: (ctx, AsyncSnapshot<Map<String, dynamic>> sc) {
-        if (sc.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+        // if (sc.connectionState == ConnectionState.waiting) {
+        //   return const Center(
+        //     child: CircularProgressIndicator(),
+        //   );
+        // }
+        if (sc.connectionState == ConnectionState.done) {
+          mobyCached = sc.data!['MOBY'].toString();
         }
         return Column(
           children: [
@@ -42,7 +66,9 @@ class _MobyDisplayState extends State<MobyDisplay> {
               backgroundColor: Theme.of(context).cardColor,
               child: FittedBox(
                 child: Text(
-                  sc.data!['MOBY'].toString(),
+                  (sc.connectionState == ConnectionState.waiting)
+                      ? mobyCached
+                      : sc.data!['MOBY'].toString(),
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
               ),

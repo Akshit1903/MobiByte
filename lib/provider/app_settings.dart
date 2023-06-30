@@ -110,30 +110,32 @@ class AppSettings with ChangeNotifier {
       'mode': _userDataMap['mode'],
       'phoneNo': _userDataMap['phoneNo'],
       'MOBY': _userDataMap['MOBY'],
+      'uid': _userDataMap['uid'],
       'imageUrl': photoUrl,
+      'referredBy': _userDataMap['referredBy'],
     });
   }
 
   Future<bool> getReferred(String name, String email) async {
     final temp =
         await _ref.collection('users').where("email", isEqualTo: email).get();
-    print(temp.docs[0].data());
-    temp.docs.forEach((element) {
-      print(element.data());
-    });
     final userData = await getUserdataMap;
 
     if (!temp.docs[0].data()['name'].toString().contains(name)) {
       return false;
     }
-    print(double.parse(userData['MOBY'].toString()));
+    final userReferrer = temp.docs[0].data();
+    if (userReferrer['uid'] == userData['uid'] ||
+        userData['referredBy'] != null) {
+      return false;
+    }
     await _ref.collection('users').doc(_auth.currentUser!.uid).set({
+      'name': userData['name'],
+      'email': userData['email'],
       'mode': userData['mode'],
       'imageUrl': userData['imageUrl'],
-      'name': userData['name'],
-      'MOBY': double.parse(userData['MOBY'].toString()) + 20,
-      'email': userData['email'],
       'phoneNo': userData['phoneNo'],
+      'MOBY': double.parse(userData['MOBY'].toString()) + 20,
       'uid': userData['uid'],
       'referredBy': temp.docs[0].data()['uid'],
     });

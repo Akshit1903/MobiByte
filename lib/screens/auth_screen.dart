@@ -182,39 +182,40 @@ class _AuthScreenState extends State<AuthScreen> {
     final pColor = Theme.of(context).primaryColor;
     final appSettings = Provider.of<AppSettings>(context);
     appSettings.isNewUser = _isNewUser;
+
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Container(
-      //     width: double.infinity,
-      //     child: AnimatedTextKit(
-      //       displayFullTextOnTap: true,
-      //       repeatForever: true,
-      //       animatedTexts: [
-      //         TyperAnimatedText(
-      //           'Welcome to MobiByte!',
-      //           speed: const Duration(milliseconds: 150),
-      //           textAlign: TextAlign.center,
-      //           textStyle: TextStyle(
-      //             fontWeight: FontWeight.bold,
-      //             color: pColor,
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //   ),
-      //   backgroundColor: Theme.of(context).backgroundColor,
-      //   shadowColor: Theme.of(context).backgroundColor,
-      //   elevation: 0,
-      // ),
+      appBar: AppBar(
+        title: Container(
+          width: double.infinity,
+          child: AnimatedTextKit(
+            displayFullTextOnTap: true,
+            repeatForever: true,
+            animatedTexts: [
+              TyperAnimatedText(
+                'Welcome to MobiByte!',
+                speed: const Duration(milliseconds: 150),
+                textAlign: TextAlign.center,
+                textStyle: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
+        backgroundColor: Theme.of(context).backgroundColor,
+        shadowColor: Theme.of(context).backgroundColor,
+        elevation: 0,
+      ),
       backgroundColor: Theme.of(context).backgroundColor,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
             expandedHeight: MediaQuery.of(context).size.height / 5,
             pinned: true,
-            flexibleSpace: const FlexibleSpaceBar(
+            flexibleSpace: FlexibleSpaceBar(
               title: Text(''),
-              background: Placeholder(),
+              background: Image.asset("assets/logo.png"),
             ),
           ),
           SliverList(

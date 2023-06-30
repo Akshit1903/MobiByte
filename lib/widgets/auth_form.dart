@@ -49,21 +49,21 @@ class _AuthFormState extends State<AuthForm> {
 
     return Column(
       children: [
-        Container(
-          child: SignInButton(
-            Buttons.Google,
-            text: widget.isLogin ? 'Log in with Google' : 'Sign up with Google',
-            onPressed: () {
-              widget.signInSignUpGoogle(context);
-            },
-          ),
-          alignment: Alignment.center,
-          width: double.infinity,
-        ),
-        const Divider(),
-        const SizedBox(
-          height: 0,
-        ),
+        // Container(
+        //   child: SignInButton(
+        //     Buttons.Google,
+        //     text: widget.isLogin ? 'Log in with Google' : 'Sign up with Google',
+        //     onPressed: () {
+        //       widget.signInSignUpGoogle(context);
+        //     },
+        //   ),
+        //   alignment: Alignment.center,
+        //   width: double.infinity,
+        // ),
+        // const Divider(),
+        // const SizedBox(
+        //   height: 0,
+        // ),
         Form(
           key: _formKey,
           child: Padding(
@@ -191,151 +191,160 @@ class _AuthFormState extends State<AuthForm> {
                 const SizedBox(
                   height: 20,
                 ),
-                if (!widget.isLogin)
-                  TextFormField(
-                    key: const ValueKey('repeat-password'),
-                    obscureText: _hidePassword,
-                    autocorrect: false,
-                    textCapitalization: TextCapitalization.none,
-                    validator: (value) {
-                      if (value == _passConfirm) {
-                        return null;
-                      }
-                      return 'Passwords do not match!';
-                    },
-                    enableSuggestions: false,
-                    onEditingComplete: () {
-                      if (widget.isLogin) {
-                        _saveForm();
-                      } else {
-                        FocusScope.of(context).nextFocus();
-                      }
-                    },
-                    decoration: InputDecoration(
-                      labelStyle: TextStyle(
-                        color: Theme.of(context).indicatorColor,
-                      ),
+                AnimatedSize(
+                  duration: Duration(milliseconds: 500),
+                  curve: Curves.decelerate,
+                  alignment: Alignment.topCenter,
+                  child: (widget.isLogin)
+                      ? SizedBox()
+                      : Column(
+                          children: [
+                            TextFormField(
+                              key: const ValueKey('repeat-password'),
+                              obscureText: _hidePassword,
+                              autocorrect: false,
+                              textCapitalization: TextCapitalization.none,
+                              validator: (value) {
+                                if (value == _passConfirm) {
+                                  return null;
+                                }
+                                return 'Passwords do not match!';
+                              },
+                              enableSuggestions: false,
+                              onEditingComplete: () {
+                                if (widget.isLogin) {
+                                  _saveForm();
+                                } else {
+                                  FocusScope.of(context).nextFocus();
+                                }
+                              },
+                              decoration: InputDecoration(
+                                labelStyle: TextStyle(
+                                  color: Theme.of(context).indicatorColor,
+                                ),
 
-                      label: const Text('Repeat Password'),
-                      hintText: 'Enter your Password',
-                      // helperText: 'Don\'t share your password with anyone',
-                      prefixIcon: Icon(
-                        Icons.password,
-                        color: Theme.of(context).indicatorColor,
-                      ),
-                      // enabledBorder: OutlineInputBorder(
-                      //   borderSide: const BorderSide(
-                      //       color: Colors.grey,
-                      //       width: 2.0,
-                      //       style: BorderStyle.solid),
-                      //   borderRadius: BorderRadius.circular(15),
-                      // ),
-                      // focusedBorder: const OutlineInputBorder(
-                      //   borderSide: BorderSide(
-                      //     color: Colors.grey,
-                      //     width: 2.0,
-                      //     style: BorderStyle.solid,
-                      //   ),
-                      // ),
-                    ),
-                  ),
-                const SizedBox(
-                  height: 10,
+                                label: const Text('Repeat Password'),
+                                hintText: 'Enter your Password',
+                                // helperText: 'Don\'t share your password with anyone',
+                                prefixIcon: Icon(
+                                  Icons.password,
+                                  color: Theme.of(context).indicatorColor,
+                                ),
+                                // enabledBorder: OutlineInputBorder(
+                                //   borderSide: const BorderSide(
+                                //       color: Colors.grey,
+                                //       width: 2.0,
+                                //       style: BorderStyle.solid),
+                                //   borderRadius: BorderRadius.circular(15),
+                                // ),
+                                // focusedBorder: const OutlineInputBorder(
+                                //   borderSide: BorderSide(
+                                //     color: Colors.grey,
+                                //     width: 2.0,
+                                //     style: BorderStyle.solid,
+                                //   ),
+                                // ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            TextFormField(
+                              key: const ValueKey('username'),
+                              validator: (val) {
+                                if (val != "") {
+                                  return null;
+                                }
+                                return "Name cannot be empty";
+                              },
+                              keyboardType: TextInputType.name,
+                              autocorrect: false,
+                              textCapitalization: TextCapitalization.words,
+                              enableSuggestions: true,
+                              onSaved: (value) {
+                                _userName = value ?? '';
+                              },
+                              onEditingComplete: () {
+                                print('onEditingComplete');
+                                FocusScope.of(context).nextFocus();
+                              },
+                              onFieldSubmitted: (val) =>
+                                  print('onFieldSubmitted'),
+                              decoration: InputDecoration(
+                                labelStyle: TextStyle(
+                                  color: Theme.of(context).indicatorColor,
+                                ),
+
+                                label: const Text('Name'),
+                                hintText: 'Enter your Name',
+                                // helperText: 'What do we call you?',
+                                prefixIcon: Icon(
+                                  Icons.account_circle,
+                                  color: Theme.of(context).indicatorColor,
+                                ),
+                                // enabledBorder: OutlineInputBorder(
+                                //   borderSide: const BorderSide(
+                                //       color: Colors.grey,
+                                //       width: 2.0,
+                                //       style: BorderStyle.solid),
+                                //   borderRadius: BorderRadius.circular(15),
+                                // ),
+                                // focusedBorder: const OutlineInputBorder(
+                                //   borderSide: BorderSide(
+                                //       color: Colors.grey,
+                                //       width: 2.0,
+                                //       style: BorderStyle.solid),
+                                // ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            TextFormField(
+                              key: const ValueKey('phone'),
+                              keyboardType: TextInputType.phone,
+                              onEditingComplete: _saveForm,
+                              onSaved: (value) {
+                                _userPhoneNo = int.parse(value.toString());
+                              },
+                              validator: (value) {
+                                if (value.toString().length == 10) {
+                                  return null;
+                                }
+                                return 'Phone number must contain 10 digits!';
+                              },
+                              decoration: InputDecoration(
+                                labelStyle: TextStyle(
+                                  color: Theme.of(context).indicatorColor,
+                                ),
+
+                                label: const Text('Phone Number'),
+                                hintText: 'Enter your Phone Number',
+                                // helperText:
+                                //     'We need your phone number for identity verification',
+                                prefixIcon: Icon(
+                                  Icons.phone,
+                                  color: Theme.of(context).indicatorColor,
+                                ),
+                                // enabledBorder: OutlineInputBorder(
+                                //   borderSide: const BorderSide(
+                                //       color: Colors.grey,
+                                //       width: 2.0,
+                                //       style: BorderStyle.solid),
+                                //   borderRadius: BorderRadius.circular(15),
+                                // ),
+                                // focusedBorder: const OutlineInputBorder(
+                                //   borderSide: BorderSide(
+                                //     color: Colors.grey,
+                                //     width: 2.0,
+                                //     style: BorderStyle.solid,
+                                //   ),
+                                // ),
+                              ),
+                            ),
+                          ],
+                        ),
                 ),
-                if (!widget.isLogin)
-                  TextFormField(
-                    key: const ValueKey('username'),
-                    validator: (val) {
-                      if (val != "") {
-                        return null;
-                      }
-                      return "Name cannot be empty";
-                    },
-                    keyboardType: TextInputType.name,
-                    autocorrect: false,
-                    textCapitalization: TextCapitalization.words,
-                    enableSuggestions: true,
-                    onSaved: (value) {
-                      _userName = value ?? '';
-                    },
-                    onEditingComplete: () {
-                      print('onEditingComplete');
-                      FocusScope.of(context).nextFocus();
-                    },
-                    onFieldSubmitted: (val) => print('onFieldSubmitted'),
-                    decoration: InputDecoration(
-                      labelStyle: TextStyle(
-                        color: Theme.of(context).indicatorColor,
-                      ),
-
-                      label: const Text('Name'),
-                      hintText: 'Enter your Name',
-                      // helperText: 'What do we call you?',
-                      prefixIcon: Icon(
-                        Icons.account_circle,
-                        color: Theme.of(context).indicatorColor,
-                      ),
-                      // enabledBorder: OutlineInputBorder(
-                      //   borderSide: const BorderSide(
-                      //       color: Colors.grey,
-                      //       width: 2.0,
-                      //       style: BorderStyle.solid),
-                      //   borderRadius: BorderRadius.circular(15),
-                      // ),
-                      // focusedBorder: const OutlineInputBorder(
-                      //   borderSide: BorderSide(
-                      //       color: Colors.grey,
-                      //       width: 2.0,
-                      //       style: BorderStyle.solid),
-                      // ),
-                    ),
-                  ),
-                const SizedBox(
-                  height: 20,
-                ),
-                if (!widget.isLogin)
-                  TextFormField(
-                    key: const ValueKey('phone'),
-                    keyboardType: TextInputType.phone,
-                    onEditingComplete: _saveForm,
-                    onSaved: (value) {
-                      _userPhoneNo = int.parse(value.toString());
-                    },
-                    validator: (value) {
-                      if (value.toString().length == 10) {
-                        return null;
-                      }
-                      return 'Phone number must contain 10 digits!';
-                    },
-                    decoration: InputDecoration(
-                      labelStyle: TextStyle(
-                        color: Theme.of(context).indicatorColor,
-                      ),
-
-                      label: const Text('Phone Number'),
-                      hintText: 'Enter your Phone Number',
-                      // helperText:
-                      //     'We need your phone number for identity verification',
-                      prefixIcon: Icon(
-                        Icons.phone,
-                        color: Theme.of(context).indicatorColor,
-                      ),
-                      // enabledBorder: OutlineInputBorder(
-                      //   borderSide: const BorderSide(
-                      //       color: Colors.grey,
-                      //       width: 2.0,
-                      //       style: BorderStyle.solid),
-                      //   borderRadius: BorderRadius.circular(15),
-                      // ),
-                      // focusedBorder: const OutlineInputBorder(
-                      //   borderSide: BorderSide(
-                      //     color: Colors.grey,
-                      //     width: 2.0,
-                      //     style: BorderStyle.solid,
-                      //   ),
-                      // ),
-                    ),
-                  ),
                 const SizedBox(
                   height: 20,
                 ),

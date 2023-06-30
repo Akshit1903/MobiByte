@@ -12,6 +12,8 @@ import '../provider/app_settings.dart';
 import '../widgets/moby_display.dart';
 
 class ProfileScreen extends StatefulWidget {
+  final void Function(int) setPageValue;
+  ProfileScreen(this.setPageValue);
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
@@ -112,9 +114,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   MobyDisplay(),
                   ElevatedButton(
-                    onPressed: () async {
-                      mineData.setPageNo(0);
-                      await appSettings.signOutConfirmation(context);
+                    onPressed: () {
+                      setState(() {
+                        mineData.setPageNo(1);
+                      });
                     },
                     child: const Text('Refer your friends and earn MOBY*'),
                   )
